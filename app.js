@@ -8,4 +8,7 @@ app.get('/get/plan/shopp/items', function (req, res) {
     res.send('Some Items');
 })
 
+app.get('/user 555/l', function (req, res) {
+    res.send('Some Items');
+})
 app.listen(3000);
