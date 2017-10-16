@@ -11,4 +11,7 @@ app.get('/get/plan/shop/items', function (req, res) {
 app.get('/user/last', function (req, res) {
     res.send('Some Items');
 })
+app.get('/list',function (req,res) {
+	res.send('New List add');
+})
 app.listen(3000);
