@@ -1,17 +1,24 @@
+const mongoose = require('mongoose');
 const express = require('express');
+const bodyparser = require('body-parser');
 const app = express();
-app.post('/post/plan/shop/items', function (req,res){
-	console.log('Post method');
-	res.send('some items posted');
-})
-app.get('/get/plan/shop/items', function (req, res) {
-    res.send('Some Items');
-})
+const Utility = require('./services/utility');
+const AppConstants = require('./settings/constants')
 
-app.get('/user/last', function (req, res) {
-    res.send('Some Items');
-})
-app.get('/list',function (req,res) {
-	res.send('New List add');
-})
-app.listen(3000);
+
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({
+    extended: true
+}));
+
+app.use(Utility.parseQuery);
+require('./models/users');
+
+const con = mongoose.createConnection(AppConstants.DB_URL);
+
+app.dbs = {
+    users: con.model('users')
+}
+require('./controllers/api')(app);
+
+app.listen(2222);
