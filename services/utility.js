@@ -3,6 +3,8 @@ const AppConstants = require('./../settings/constants');
 
 const ErrorTypes = {
     VALIDATION_ERROR: 'validation_error',
+    SEARCH_ERROR: 'searching error',
+    USER_EXISTS: 'user exists',
     USERNAME_PASS_MISSING: 'username pass missing',
     USERNAME_INVALID_RANGE: 'USERNAME_INVALID_RANGE',
     PASSWORD_INVALID_RANGE: 'PASSWORD_INVALID_RANGE',
@@ -13,6 +15,7 @@ const ErrorTypes = {
     ERROR_IN_DELETING: 'error in deleting',
     EMPTY_ID_DELETE: 'empty id in delete',
     EMPTY_ID_FOUND: 'empty id in update',
+    EMAIL_ERROR: 'invalid email',
     USER_UPDATE_ERROR: 'error in user update',
     UNKNOWN_ERROR: 'unknown_error'
 }
@@ -35,11 +38,17 @@ class Utility {
             message: 'Something went wrong'
         }
         switch (type) {
+          case ErrorTypes.SEARCH_ERROR:
+               error_object.message = 'Something went wront in searching';
+               break;
           case ErrorTypes.USERNAME_PASS_MISSING:
                error_object.message = 'username or password are missing please enter username and password';
                break;
           case ErrorTypes.USERNAME_INVALID_RANGE:
                error_object.message = 'Your username range is invalid ';
+               break;
+          case ErrorTypes.USER_EXISTS:
+               error_object.message = 'have user in this username please enter other username';
                break;
           case ErrorTypes.PASSWORD_INVALID_RANGE:
                error_object.message = 'Your password range is invalid ';
@@ -58,6 +67,9 @@ class Utility {
                break;
           case ErrorTypes.ERROR_IN_DELETING:
                error_object.message = 'Error in deleting user';
+               break;
+          case ErrorTypes.EMAIL_ERROR:
+               error_object.message = 'Invalid email please enter correct email';
                break;
           case ErrorTypes.EMPTY_ID_DELETE:
                error_object.message = 'you pass empty id please pass correct id';

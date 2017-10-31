@@ -1,5 +1,7 @@
 const mongoose = require ('mongoose');
 const keygen = require('keygenerator');
+
+const EmailValidator = require('./../services/validators/emailValidator')
 const Schema = mongoose.Schema;
 
 
@@ -36,7 +38,6 @@ let userSchema = Schema ({
             lowercase: true,
             minLength: AppConstants.EMAIL_MIN_LENGTH,
             maxLength: AppConstants.EMAIL_MAX_LENGTH,
-
         },
         name: {
           type: String,

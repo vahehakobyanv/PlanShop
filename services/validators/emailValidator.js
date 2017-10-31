@@ -5,8 +5,10 @@ class EmailValidator extends BaseValidator {
     constructor() {
         super();
     }
-    validate(email) {
-
+    validator(email) {
+        if (!super.validator(email, BaseValidator.Types.STRING)) {
+            return false;
+        }
             if(!email)
                 return false;
             let ValidemailRegExp = AppConstants.EMAIL_REG_EXP;
@@ -17,4 +19,3 @@ class EmailValidator extends BaseValidator {
 
     }
     module.exports = new EmailValidator();
-
