@@ -17,6 +17,7 @@ const ErrorTypes = {
     EMPTY_ID_FOUND: 'empty id in update',
     EMAIL_ERROR: 'invalid email',
     USER_UPDATE_ERROR: 'error in user update',
+    PERMISSION_DENIED: ' permission denied'
     UNKNOWN_ERROR: 'unknown_error'
 }
 class Utility {
@@ -61,6 +62,9 @@ class Utility {
                break;
           case ErrorTypes.INVALID_NAME_RANGE:
                error_object.message = 'Your name range is invalid';
+               break;
+          case ErrorTypes.PERMISSION_DENIED:
+               error_object.message = 'you didn`h have permission'
                break;
           case ErrorTypes.INVALID_AGE_RANGE:
                error_object.message = 'Your age range is invalid';

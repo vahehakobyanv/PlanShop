@@ -8,17 +8,38 @@ module.exports = function(app) {
     {
         return function(req,res,next) {
             if(permission == 'optional') {
-                next();
+                return next();
             }
             if(permission == 'user') {
-                if (app.dbs.users.findOne({key: req.query.key,role: 'admin'})) {
-                    next();
+                if (app.dbs.users.findOne({key: req.query.key,role: 'admin'},(err,user)=>
+              {
+                if(!user) {
+                  return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PERMISSION_DENIED));
                 }
-                if (app.dbs.users.findOne({key: req.query.key,role: 'user'})) {
-                    if (data._id == req.params._id) {
-                        next();
-                    }
-                }
+                req.user = user;
+                return next;
+              }))
+
+
+                if (app.dbs.users.findOne({key: req.query.key,role: 'user'},(err,data)=> {
+                  if(!user) {
+                    return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PERMISSION_DENIED));
+                  } {
+                      if (data._id == req.params._id) {
+                        req.user = user;
+                      return next();
+                      }
+                })
+              });
+            if(permission == 'admin') {
+              if (app.dbs.users.findOne({key: req.query.key,role: 'admin'},(err,user)=> {
+                if(!user) {
+                  return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PERMISSION_DENIED));
+                } {
+                    req.user = user;
+                    return next();
+                  }
+              }))
             }
         }
     }
