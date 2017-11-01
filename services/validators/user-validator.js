@@ -30,6 +30,17 @@ const AppConstants = require('./../../settings/constants');
       }
        return Utility.ErrorTypes.SUCCESS;
     }
+    validateName(name, sanitize) {
+      if (!name) {
+           return Utility.ErrorTypes.NAME_MISSING;
+      }
+      if (password.length < AppConstants.NAME_MIN_LENGTH
+          || password.length > AppConstants.NAME_MAX_LENGTH)
+                {
+          return Utility.ErrorTypes.INVALID_NAME_RANGE;
+      }
+       return Utility.ErrorTypes.SUCCESS;
+    }
 
  }
 

@@ -4,47 +4,37 @@ const Utility = require('./../services/utility');
 const UserValidator = require('./../services/validators/user-validator');
 const EmailValidator = require('./../services/validators/emailValidator');
 module.exports = function(app) {
-    function _auth(permission)
-    {
-        return function(req,res,next) {
-            if(permission == 'optional') {
-                return next();
-            }
-            if(permission == 'user') {
-                if (app.dbs.users.findOne({key: req.query.key,role: 'admin'},(err,user)=>
-              {
-                if(!user) {
-                  return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PERMISSION_DENIED));
-                }
-                req.user = user;
-                return next;
-              }))
+  function _auth(permission) {
+   return function (req, res, next) {
+     if (permission == 'optional') {
+       return next();
+     }
+     if (permission == 'user') {
+       app.dbs.users.findOne({key: req.query.key}, (err, user) => {
+         if (!user) {
+           return res.send(Utility.generateErrorMessage(
+             Utility.ErrorTypes.PERMISSION_DENIED)
+           );
+         }
+         req.user = user;
+         return next();
+       });
+     }
+     if (permission == 'admin') {
+       app.dbs.users.findOne({key: req.query.key, role: 'admin'}, (err, user) => {
+             if (!user) {
+               return res.send(Utility.generateErrorMessage(
+                 Utility.ErrorTypes.PERMISSION_DENIED)
+               );
+             }
+             req.user = user;
+             return next();
+           });
+     }
+   }
+ }
 
-
-                if (app.dbs.users.findOne({key: req.query.key,role: 'user'},(err,data)=> {
-                  if(!user) {
-                    return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PERMISSION_DENIED));
-                  } {
-                      if (data._id == req.params._id) {
-                        req.user = user;
-                      return next();
-                      }
-                })
-              });
-            if(permission == 'admin') {
-              if (app.dbs.users.findOne({key: req.query.key,role: 'admin'},(err,user)=> {
-                if(!user) {
-                  return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PERMISSION_DENIED));
-                } {
-                    req.user = user;
-                    return next();
-                  }
-              }))
-            }
-        }
-    }
-
- app.get('/users/',_auth('optional'), (req, res) => {
+ app.get('/users/',_auth('user'), (req, res) => {
     app.dbs.users.find({}, (err, data) => {
         if (err) {
             return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.SEARCH_ERROR));
@@ -79,8 +69,10 @@ app.post('/users/',_auth('optional'), (req, res) => {
   {
       return  res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.pas_response));
   }
-  if(name.length < AppConstants.NAME_MIN_LENGTH || name.length > AppConstants.NAME_MAX_LENGTH) {
-      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.INVALID_NAME_RANGE));
+  let name_response = UserValidator.validateName(name)
+  if(name_response != Utility.ErrorTypes.SUCCESS)
+  {
+      return  res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.name_response));
   }
   if(age < AppConstants.AGE_MIN_LENGTH || age > AppConstants.AGE_MAX_LENGTH) {
       return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.INVALID_AGE_RANGE));
@@ -121,7 +113,7 @@ app.post('/users/',_auth('optional'), (req, res) => {
 });
 
 
-app.put('/users/:id',_auth('optional'), (req, res) => {
+app.put('/users/:id',_auth('user'), (req, res) => {
   app.dbs.users.find({_id: req.params.id},(err,data) => {
     if(err) {
       return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.EMPTY_ID_FOUND));
@@ -186,7 +178,7 @@ app.put('/users/:id',_auth('optional'), (req, res) => {
 
 
 
-app.delete('/users/:id',_auth('optional'), (req, res) => {
+app.delete('/users/:id',_auth('admin'), (req, res) => {
   if(!req.params.id)
   {
     return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.EMPTY_ID_DELETE));

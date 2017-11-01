@@ -11,13 +11,14 @@ const ErrorTypes = {
     ERROR_CREATION_USER: 'error creation user',
     HAVE_USER: 'have user in this username',
     INVALID_NAME_RANGE: 'invalid range for name',
+    NAME_MISSING: 'name missing',
     INVALID_AGE_RANGE: 'invalid range for age',
     ERROR_IN_DELETING: 'error in deleting',
     EMPTY_ID_DELETE: 'empty id in delete',
     EMPTY_ID_FOUND: 'empty id in update',
     EMAIL_ERROR: 'invalid email',
     USER_UPDATE_ERROR: 'error in user update',
-    PERMISSION_DENIED: ' permission denied'
+    PERMISSION_DENIED: ' permission denied',
     UNKNOWN_ERROR: 'unknown_error'
 }
 class Utility {
@@ -62,6 +63,9 @@ class Utility {
                break;
           case ErrorTypes.INVALID_NAME_RANGE:
                error_object.message = 'Your name range is invalid';
+               break;
+          case ErrorTypes.NAME_MISSING:
+               error_object.message = 'name are missing'
                break;
           case ErrorTypes.PERMISSION_DENIED:
                error_object.message = 'you didn`h have permission'
