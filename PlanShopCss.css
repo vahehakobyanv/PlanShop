@@ -1,0 +1,19 @@
+body {
+    background-image: url("Img/BackgroundImg.jpg");
+    background-color: #cccccc;
+}
+.Button{
+    width: 12em;
+    height:1.5em;
+    background-color:#835E50;
+    border-color: #835E50;
+}
+.buttons{
+    margin-left: 30%;
+    margin-top: 15%;
+
+}
+.InputFields{
+    margin-left: 30%;
+    color: rebeccapurple;
+}

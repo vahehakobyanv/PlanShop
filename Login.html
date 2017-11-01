@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="PlanShopCss.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="buttons">
+    <button onclick="PopUp('SignUp','SignIn')" class  = "Button">Sign up</button>
+    <button onclick="PopUp('SignIn','SignUp')" class  = "Button">Sign In</button>
+
+</div>
+<div class ="InputFields">
+    <span id = "SignUp" style="display:none">
+        UserName:<input type="text" id = "UserNameId"><br>
+        Password_:<input type="password" id = "UserPass"><br>
+        <input type ="submit"onclick="SubmitPressed()">
+    </span>
+
+    <div id = "SignIn" style="display:none">
+        UserName:<input type="text"><br>
+        Password:<input type="password"><br>
+        RePassword:<input type="password"><br>
+    </div>
+</div>
+<script>
+    function PopUp(show,hide) {
+        x = document.getElementById(show);
+        y = document.getElementById(hide);
+        y.style.display = 'none';
+        if (x.style.display === 'none') {
+            x.style.display = 'block';
+
+        } else {
+            x.style.display = 'none';
+        }
+    }
+    function SubmitPressed(){
+        var x = document.getElementById("UserNameId").value;
+        var y = document.getElementById("UserPass").value;
+        console.log(x,y);
+        window.location.assign("Main.html");
+    }
+
+
+
+</script>
+</body>
+</html>
