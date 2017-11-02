@@ -10,20 +10,29 @@ module.exports = function(app) {
        return next();
      }
      if (permission == 'user') {
+       console.log(req.query.key);
        app.dbs.users.findOne({key: req.query.key}, (err, user) => {
          if (!user) {
-           return res.send(Utility.generateErrorMessage(
+           return res.send(Utility.GenerateErrorMessage(
              Utility.ErrorTypes.PERMISSION_DENIED)
            );
          }
+         console.log(user.id + " "+req.params.id)
          req.user = user;
+         if(req.user.role == 'admin') {
          return next();
+       }
+       if(req.user.id == req.params.id) {
+         return next();
+       }
+       return res.send(Utility.GenerateErrorMessage(
+         Utility.ErrorTypes.PERMISSION_DENIED));
        });
      }
      if (permission == 'admin') {
        app.dbs.users.findOne({key: req.query.key, role: 'admin'}, (err, user) => {
              if (!user) {
-               return res.send(Utility.generateErrorMessage(
+               return res.send(Utility.GenerateErrorMessage(
                  Utility.ErrorTypes.PERMISSION_DENIED)
                );
              }
@@ -119,7 +128,7 @@ app.put('/users/:id',_auth('user'), (req, res) => {
       return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.EMPTY_ID_FOUND));
     }
     let username = req.body.username;
-    let key = req.query.key;
+    let key = data.key;
     let password = req.body.password;
     let name = req.body.name;
     let email = req.body.email ;
