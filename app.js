@@ -13,11 +13,13 @@ app.use(bodyparser.urlencoded({
 
 app.use(Utility.parseQuery);
 require('./models/users');
+require('./models/products');
 
 const con = mongoose.createConnection(AppConstants.DB_URL);
 
 app.dbs = {
-    users: con.model('users')
+    users: con.model('users'),
+    products: con.model('products')
 }
 require('./controllers/api')(app);
 
