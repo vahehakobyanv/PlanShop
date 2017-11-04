@@ -17,8 +17,19 @@ const ErrorTypes = {
     EMPTY_ID_DELETE: 'empty id in delete',
     EMPTY_ID_FOUND: 'empty id in update',
     EMAIL_ERROR: 'invalid email',
+    PRODUCT_REPEAT: 'product repead',
     USER_UPDATE_ERROR: 'error in user update',
+    ERROR_IMPORTANCE: 'error importance',
+    ERROR_PRODUCTS_GROUP: 'error products group',
+    ERROR_IN_PRODUCT_DELETING: 'error in product deleting',
+    ERROR_IN_DELETING_PRODUCT: 'error in deleting product',
+    ISDELETED_ERROR: 'isDeleted error',
+    ERROR_CREATION_PRODUCT: 'error creation product',
     PERMISSION_DENIED: ' permission denied',
+    NO_SUCH_PRODUCT_UPDATE: 'no such product update',
+    PRODUCTS_EXISTS: 'products exist',
+    PRODUCTS_UPDATE_ERROR: 'products update error',
+    EMPTY_PRODUCTS_DELETE: 'empty products delete',
     UNKNOWN_ERROR: 'unknown_error'
 }
 class Utility {
@@ -58,6 +69,9 @@ class Utility {
           case ErrorTypes.ERROR_CREATION_USER:
                error_object.message = 'error when you create new user';
                break;
+          case ErrorTypes.PRODUCT_REPEAT:
+               error_object.message = 'product is a repead, pleas enter other product';
+               break;
           case ErrorTypes.HAVE_USER:
                error_object.message = 'user already exists please enter other username';
                break;
@@ -84,6 +98,36 @@ class Utility {
                break;
           case ErrorTypes.EMPTY_ID_FOUND:
                error_object.message = 'in updating id is empty';
+               break;
+          case ErrorTypes.ERROR_IMPORTANCE:
+               error_object.message = 'importance is not defined';
+               break;
+          case ErrorTypes.ERROR_CREATION_PRODUCT:
+               error_object.message = 'error when you create new product';
+               break;
+          case ErrorTypes.EMPTY_PRODUCTS_DELETE:
+               error_object.message = 'you try delete empty products please enter correct product name';
+               break;
+          case ErrorTypes.ERROR_PRODUCTS_GROUP:
+               error_object.message = 'there is not such a group';
+               break;
+          case ErrorTypes.ERROR_IN_PRODUCT_DELETING:
+               error_object.message = 'error in product deleting time';
+               break;
+          case ErrorTypes.ERROR_IN_DELETING_PRODUCT:
+               error_object.message = 'error in deleting product';
+               break;
+          case ErrorTypes.ISDELETED_ERROR:
+               error_object.message = 'you trying delete deleting products';
+               break;
+          case ErrorTypes.NO_SUCH_PRODUCT_UPDATE:
+               error_object.message = 'no such product to update, please enter correct product name';
+               break;
+          case ErrorTypes.PRODUCTS_EXISTS:
+               error_object.message = 'product is alredy exists';
+               break;
+          case ErrorTypes.PRODUCTS_UPDATE_ERROR:
+               error_object.message = 'product updating error';
                break;
           case ErrorTypes.USER_UPDATE_ERROR:
                error_object.message = 'error in update time'
