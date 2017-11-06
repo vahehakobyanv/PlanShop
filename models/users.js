@@ -1,7 +1,8 @@
 const mongoose = require ('mongoose');
 const keygen = require('keygenerator');
 
-const EmailValidator = require('./../services/validators/emailValidator')
+const EmailValidator = require('./../services/validators/emailValidator');
+const products = require('./products');
 const Schema = mongoose.Schema;
 
 
@@ -49,7 +50,13 @@ let userSchema = Schema ({
            type: String,
            enum: ['user','admin'],
            default: 'user'
-        }
+        },
+        products: [{
+            type: Schema.ObjectId,
+            index: true,
+            ref: 'products',
+            default: null
+    }]
 });
 
 module.exports = mongoose.model('users',userSchema);

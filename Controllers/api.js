@@ -36,26 +36,33 @@ module.exports = function(app) {
    }
  }
 
- app.get('/api/users/',_auth('user'), (req, res) => {
-    app.dbs.users.find({}, (err, data) => {
-        if (err) {
-            return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.SEARCH_ERROR));
-        }
-
-        return res.send(data.map(d => {
-            return {
-                username: d.username,
-                id: d._id,
-                age: d.age,
-                name: d.name,
-                email: d.email,
-                key : d.key
+    app.get('/api/users/',_auth('optional'), (req, res) => {
+        app.dbs.users.find({})
+            .populate('products',['name','group'])
+            .skip(req.query.offset)
+            .limit(req.query.limit)
+            .exec( (err, data) => {
+            if (err) {
+              console.log(err);
+                return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.SEARCH_ERROR));
             }
-        }));
-    })
-});
 
-app.post('/api/users/',_auth('optional'), (req, res) => {
+            return res.send(data.map(d => {
+           return {
+               username: d.username,
+               id: d._id,
+               age: d.age,
+               name: d.name,
+               email: d.email,
+               key : d.key,
+               products: d.products
+           }
+       }));
+        })
+    });
+
+
+  app.post('/api/users/',_auth('optional'), (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
   let name = req.body.name;
@@ -348,5 +355,6 @@ app.put('/api/products/:id', _auth('optional'), (req, res) => {
          });
        });
 });
+
 
 }

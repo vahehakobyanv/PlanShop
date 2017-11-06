@@ -5,6 +5,7 @@ const ErrorTypes = {
     VALIDATION_ERROR: 'validation_error',
     SEARCH_ERROR: 'searching error',
     USER_EXISTS: 'user exists',
+    SUCCESS: 'SUCCESS',
     USERNAME_PASS_MISSING: 'username pass missing',
     USERNAME_INVALID_RANGE: 'USERNAME_INVALID_RANGE',
     PASSWORD_INVALID_RANGE: 'PASSWORD_INVALID_RANGE',
@@ -30,6 +31,7 @@ const ErrorTypes = {
     PRODUCTS_EXISTS: 'products exist',
     PRODUCTS_UPDATE_ERROR: 'products update error',
     EMPTY_PRODUCTS_DELETE: 'empty products delete',
+    LIST_REPEAT: 'list is repeat',
     UNKNOWN_ERROR: 'unknown_error'
 }
 class Utility {
@@ -53,6 +55,9 @@ class Utility {
         switch (type) {
           case ErrorTypes.SEARCH_ERROR:
                error_object.message = 'Something went wront in searching';
+               break;
+          case ErrorTypes.SUCCESS:
+               error_object.message = 'Success!!!'
                break;
           case ErrorTypes.USERNAME_PASS_MISSING:
                error_object.message = 'username or password are missing please enter username and password';
@@ -128,6 +133,9 @@ class Utility {
                break;
           case ErrorTypes.PRODUCTS_UPDATE_ERROR:
                error_object.message = 'product updating error';
+               break;
+          case ErrorTypes.LIST_REPEAT:
+               error_object.message = 'list is repeting please enter other name';
                break;
           case ErrorTypes.USER_UPDATE_ERROR:
                error_object.message = 'error in update time'
