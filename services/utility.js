@@ -33,6 +33,7 @@ const ErrorTypes = {
     EMPTY_PRODUCTS_DELETE: 'empty products delete',
     LIST_REPEAT: 'list is repeat',
     SHOPLIST_ERROR: 'shop list error',
+    ERROR_CREATION_SHOPLIST: 'error creation shoplist',
     EMPTY_SHOPLIST_DELETE: 'empty shoplist delete',
     ERROR_IN_SHOPLIST_DELETING: 'error in shoplist deleting',
     IS_NOT_ACTIVE: 'is not activ',
@@ -147,6 +148,9 @@ class Utility {
                break;
           case ErrorTypes.SHOPLIST_ERROR:
                error_object.message = 'cannot find shoplist';
+               break;
+          case ErrorTypes.ERROR_CREATION_SHOPLIST:
+               error_object.message = ' error in creation shoplist';
                break;
           case ErrorTypes.EMPTY_SHOPLIST_DELETE:
                error_object.message = 'there is no shoplist';

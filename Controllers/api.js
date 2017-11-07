@@ -360,7 +360,7 @@ app.put('/api/products/:id', _auth('optional'), (req, res) => {
 app.get('/api/shoplist/',_auth('optional'), (req, res) => {
    app.dbs.shoplist.find({})
        .populate('products',['name','group'])
-       .exec( (err, data) => { console.log(data);
+       .exec( (err, data) => {
        if (err) {
          console.log(err);
            return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_SHOP_LIST));
@@ -368,7 +368,7 @@ app.get('/api/shoplist/',_auth('optional'), (req, res) => {
 
        return res.send(data.map(d => {
            return {
-             listname: d.listname,
+             list_name: d.list_name,
              id: d._id,
              products: d.products
            }
@@ -391,7 +391,7 @@ app.delete('/api/shoplist/',_auth('optional'), (req, res) => {
           return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.IS_NOT_ACTIVE));
       }
 
-      app.dbs.shoplist.update({_id: req.query.id},{$set:{isDeleted: true}}, (err,data) => {
+      app.dbs.shoplist.update({_id: req.query.id},{$set:{isActive: false}}, (err,data) => {
           if(err) {
               return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_DELETING_SHOPLIST));
           }
@@ -403,13 +403,25 @@ app.delete('/api/shoplist/',_auth('optional'), (req, res) => {
   });
 
   app.post('/api/shoplist', _auth('optional'), (req, res) => {
-  let listname = req.body.list_name;
-  /* console.log(listname.length);
-  if (listname.length < AppConstants.LIST_NAME_MIN_LENGTH || listname.length > AppConstants.LIST_NAME_MAX_LENGTH) {
+  console.log(req.body.list_name);
+  let list_name = req.body.list_name;
+  console.log(list_name.length);
+  if (list_name.length < AppConstants.LIST_NAME_MIN_LENGTH || list_name.length > AppConstants.LIST_NAME_MAX_LENGTH) {
     return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.INVALID_LIST_NAME_LENGTH));
-  }*/
+  }
   app.dbs.shoplist.create({
-    list_name: listname
+    list_name: list_name
+  },(err,data)=> {
+    if(err) {
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_CREATION_SHOPLIST));
+    }
+    let shoplist = {
+      list_name: data.list_name,
+      isActive: data.isActive,
+      _id:data._id,
+      products: data.products
+    };
+    return res.send(shoplist);
   });
 })
 

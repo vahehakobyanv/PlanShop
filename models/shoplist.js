@@ -6,7 +6,7 @@ const AppConstants = require('./../settings/constants');
 const products = require('./products');
 
 let ShoplistSchema = Schema ({
-  listname: {
+  list_name: {
     type: String,
     index: {unique: true}
   },
