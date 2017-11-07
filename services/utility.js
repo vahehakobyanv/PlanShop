@@ -32,6 +32,11 @@ const ErrorTypes = {
     PRODUCTS_UPDATE_ERROR: 'products update error',
     EMPTY_PRODUCTS_DELETE: 'empty products delete',
     LIST_REPEAT: 'list is repeat',
+    SHOPLIST_ERROR: 'shop list error',
+    EMPTY_SHOPLIST_DELETE: 'empty shoplist delete',
+    ERROR_IN_SHOPLIST_DELETING: 'error in shoplist deleting',
+    IS_NOT_ACTIVE: 'is not activ',
+    INVALID_LIST_NAME_LENGTH: 'invalid list name length',
     UNKNOWN_ERROR: 'unknown_error'
 }
 class Utility {
@@ -138,7 +143,22 @@ class Utility {
                error_object.message = 'list is repeting please enter other name';
                break;
           case ErrorTypes.USER_UPDATE_ERROR:
-               error_object.message = 'error in update time'
+               error_object.message = 'error in update time';
+               break;
+          case ErrorTypes.SHOPLIST_ERROR:
+               error_object.message = 'cannot find shoplist';
+               break;
+          case ErrorTypes.EMPTY_SHOPLIST_DELETE:
+               error_object.message = 'there is no shoplist';
+               break;
+          case ErrorTypes.ERROR_IN_SHOPLIST_DELETING:
+               error_object.message = 'error in deleting shoplist';
+               break;
+          case ErrorTypes.IS_NOT_ACTIVE:
+               error_object.message = 'shoplist is not activ';
+               break;
+          case ErrorTypes.INVALID_LIST_NAME_LENGTH:
+               error_object.message = 'invalid list name length';
                break;
         }
           return error_object;

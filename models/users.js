@@ -3,6 +3,7 @@ const keygen = require('keygenerator');
 
 const EmailValidator = require('./../services/validators/emailValidator');
 const products = require('./products');
+const shoplist = require('./shoplist');
 const Schema = mongoose.Schema;
 
 
@@ -56,7 +57,13 @@ let userSchema = Schema ({
             index: true,
             ref: 'products',
             default: null
-    }]
+    }],
+        shoplist: [{
+          type:String,
+          index: true,
+          ref: 'shoplist',
+          default: null
+        }]
 });
 
 module.exports = mongoose.model('users',userSchema);

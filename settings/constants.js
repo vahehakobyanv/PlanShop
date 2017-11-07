@@ -14,7 +14,9 @@ const AppConstants = {
       NAME_MAX_LENGTH: 70,
       NUMBER_REG_EXP: /^[+-]?(([0-9])+([.][0-9]*)?|[.][0-9]+)$/,
       SYMBOL_REG_EXP: /^[!@#\$%\^\&*\)\(+=~._-]+$/,
-      EMAIL_REG_EXP: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$/
+      EMAIL_REG_EXP: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$/,
+      LIST_NAME_MAX_LENGTH: 200,
+      LIST_NAME_MIN_LENGTH: 2
 }
 
 

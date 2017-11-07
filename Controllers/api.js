@@ -357,4 +357,60 @@ app.put('/api/products/:id', _auth('optional'), (req, res) => {
 });
 
 
+app.get('/api/shoplist/',_auth('optional'), (req, res) => {
+   app.dbs.shoplist.find({})
+       .populate('products',['name','group'])
+       .exec( (err, data) => { console.log(data);
+       if (err) {
+         console.log(err);
+           return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_SHOP_LIST));
+       }
+
+       return res.send(data.map(d => {
+           return {
+             listname: d.listname,
+             id: d._id,
+             products: d.products
+           }
+  }));
+   })
+});
+
+app.delete('/api/shoplist/',_auth('optional'), (req, res) => {
+  if(!req.query.id)
+  {
+    return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.EMPTY_SHOPLIST_DELETE));
+  }
+  app.dbs.shoplist.findOne({
+      _id: req.query.id
+  }, (err, data) => {
+      if (err) {
+          return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_DELETING_SHOPLIST));
+      }
+      if (data.isActive === false) {
+          return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.IS_NOT_ACTIVE));
+      }
+
+      app.dbs.shoplist.update({_id: req.query.id},{$set:{isDeleted: true}}, (err,data) => {
+          if(err) {
+              return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_DELETING_SHOPLIST));
+          }
+      app.dbs.shoplist.findOne({_id:req.query.id},(err,data)=> {
+        return res.send(data);
+      })
+      });
+      });
+  });
+
+  app.post('/api/shoplist', _auth('optional'), (req, res) => {
+  let listname = req.body.list_name;
+  /* console.log(listname.length);
+  if (listname.length < AppConstants.LIST_NAME_MIN_LENGTH || listname.length > AppConstants.LIST_NAME_MAX_LENGTH) {
+    return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.INVALID_LIST_NAME_LENGTH));
+  }*/
+  app.dbs.shoplist.create({
+    list_name: listname
+  });
+})
+
 }
