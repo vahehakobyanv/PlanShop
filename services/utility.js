@@ -39,6 +39,8 @@ const ErrorTypes = {
   SHOPLIST_UPDATE_ERROR: 'shoplist update error',
   ERROR_FINDING_SHOPLIST: 'error finding shoplist',
   INVALID_LIST_NAME_LENGTH: 'invalid list name length',
+  NO_PHOTO: 'no photo',
+  NO_PHOTOS_TYPE: 'no photos type',
   UNKNOWN_ERROR: 'unknown_error'
 }
 
@@ -122,6 +124,12 @@ class Utility {
                break;
           case ErrorTypes.EMPTY_PRODUCTS_DELETE:
                error_object.message = 'you try delete empty products please enter correct product name';
+               break;
+          case ErrorTypes.NO_PHOTO:
+               error_object.message = 'no photo please enter photo';
+               break;
+          case ErrorTypes.NO_PHOTOS_TYPE:
+               error_object.message = 'no photos type please enter photo';
                break;
           case ErrorTypes.ERROR_PRODUCTS_GROUP:
                error_object.message = 'there is not such a group';

@@ -20,7 +20,7 @@ let GroupSchema = Schema ({
       index: true,
       ref: 'shoplist',
       default: null
-  }]
+  }],
   isActive: {
       type: Boolean,
       default: true

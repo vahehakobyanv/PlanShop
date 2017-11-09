@@ -1,5 +1,7 @@
 const crypto = require('crypto');
 const AppConstants = require('./../settings/constants');
+const multer = require('multer');
+const  upload = multer({ dest: 'uploads/' })
 
 const Utility = require('./../services/utility');
 const UserValidator = require('./../services/validators/user-validator');
@@ -180,7 +182,7 @@ module.exports = function(app) {
               }
               return res.send(user);
             });
-          });
+          }});
         });
 
   app.delete('/api/users/:id',_auth('admin'), (req, res) => {
@@ -446,4 +448,35 @@ module.exports = function(app) {
         });
       });
 
+  app.post('/api/photos', upload.single('avatar'), (req,res) => {
+    if(!req.file) {
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_PHOTO));
+    }
+    if (!req.file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_PHOTOS_TYPE))
+    }
+    console.log(file.Buffer);
+
+      let content_type= req.file.content_type
+      let size = req.file.size;
+      let filename = req.file.filename;
+      let buffer = req.file.buffer;
+      let width = req.body.width;
+      let height = req.body.height;
+    app.dbs.photos.create({
+              image: buffer,
+              content_type: content_type,
+              size: size,
+              width: width,
+              height: height,
+              title: filename
+
+    }, (err,data) => {
+      if(err) {
+        console.log(err);//TODO create error.log file
+        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_ADDING_PHOTO));
+      }
+      return res.send(data);
+    });
+  });
 }
