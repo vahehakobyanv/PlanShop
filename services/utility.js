@@ -1,45 +1,47 @@
 const AppConstants = require('./../settings/constants');
 
-
 const ErrorTypes = {
-    VALIDATION_ERROR: 'validation_error',
-    SEARCH_ERROR: 'searching error',
-    USER_EXISTS: 'user exists',
-    SUCCESS: 'SUCCESS',
-    USERNAME_PASS_MISSING: 'username pass missing',
-    USERNAME_INVALID_RANGE: 'USERNAME_INVALID_RANGE',
-    PASSWORD_INVALID_RANGE: 'PASSWORD_INVALID_RANGE',
-    ERROR_CREATION_USER: 'error creation user',
-    HAVE_USER: 'have user in this username',
-    INVALID_NAME_RANGE: 'invalid range for name',
-    NAME_MISSING: 'name missing',
-    INVALID_AGE_RANGE: 'invalid range for age',
-    ERROR_IN_DELETING: 'error in deleting',
-    EMPTY_ID_DELETE: 'empty id in delete',
-    EMPTY_ID_FOUND: 'empty id in update',
-    EMAIL_ERROR: 'invalid email',
-    PRODUCT_REPEAT: 'product repead',
-    USER_UPDATE_ERROR: 'error in user update',
-    ERROR_IMPORTANCE: 'error importance',
-    ERROR_PRODUCTS_GROUP: 'error products group',
-    ERROR_IN_PRODUCT_DELETING: 'error in product deleting',
-    ERROR_IN_DELETING_PRODUCT: 'error in deleting product',
-    ISDELETED_ERROR: 'isDeleted error',
-    ERROR_CREATION_PRODUCT: 'error creation product',
-    PERMISSION_DENIED: ' permission denied',
-    NO_SUCH_PRODUCT_UPDATE: 'no such product update',
-    PRODUCTS_EXISTS: 'products exist',
-    PRODUCTS_UPDATE_ERROR: 'products update error',
-    EMPTY_PRODUCTS_DELETE: 'empty products delete',
-    LIST_REPEAT: 'list is repeat',
-    SHOPLIST_ERROR: 'shop list error',
-    ERROR_CREATION_SHOPLIST: 'error creation shoplist',
-    EMPTY_SHOPLIST_DELETE: 'empty shoplist delete',
-    ERROR_IN_SHOPLIST_DELETING: 'error in shoplist deleting',
-    IS_NOT_ACTIVE: 'is not activ',
-    INVALID_LIST_NAME_LENGTH: 'invalid list name length',
-    UNKNOWN_ERROR: 'unknown_error'
+  VALIDATION_ERROR: 'validation_error',
+  SEARCH_ERROR: 'searching error',
+  USER_EXISTS: 'user exists',
+  SUCCESS: 'SUCCESS',
+  USERNAME_PASS_MISSING: 'username pass missing',
+  USERNAME_INVALID_RANGE: 'USERNAME_INVALID_RANGE',
+  PASSWORD_INVALID_RANGE: 'PASSWORD_INVALID_RANGE',
+  ERROR_CREATION_USER: 'error creation user',
+  HAVE_USER: 'have user in this username',
+  INVALID_NAME_RANGE: 'invalid range for name',
+  NAME_MISSING: 'name missing',
+  INVALID_AGE_RANGE: 'invalid range for age',
+  ERROR_IN_DELETING: 'error in deleting',
+  EMPTY_ID_DELETE: 'empty id in delete',
+  EMPTY_ID_FOUND: 'empty id in update',
+  EMAIL_ERROR: 'invalid email',
+  PRODUCT_REPEAT: 'product repead',
+  USER_UPDATE_ERROR: 'error in user update',
+  ERROR_IMPORTANCE: 'error importance',
+  ERROR_PRODUCTS_GROUP: 'error products group',
+  ERROR_IN_PRODUCT_DELETING: 'error in product deleting',
+  ERROR_IN_DELETING_PRODUCT: 'error in deleting product',
+  ISDELETED_ERROR: 'isDeleted error',
+  ERROR_CREATION_PRODUCT: 'error creation product',
+  PERMISSION_DENIED: ' permission denied',
+  NO_SUCH_PRODUCT_UPDATE: 'no such product update',
+  PRODUCTS_EXISTS: 'products exist',
+  PRODUCTS_UPDATE_ERROR: 'products update error',
+  EMPTY_PRODUCTS_DELETE: 'empty products delete',
+  LIST_REPEAT: 'list is repeat',
+  SHOPLIST_ERROR: 'shop list error',
+  ERROR_CREATION_SHOPLIST: 'error creation shoplist',
+  EMPTY_SHOPLIST_DELETE: 'empty shoplist delete',
+  ERROR_IN_SHOPLIST_DELETING: 'error in shoplist deleting',
+  IS_NOT_ACTIVE: 'is not activ',
+  SHOPLIST_UPDATE_ERROR: 'shoplist update error',
+  ERROR_FINDING_SHOPLIST: 'error finding shoplist',
+  INVALID_LIST_NAME_LENGTH: 'invalid list name length',
+  UNKNOWN_ERROR: 'unknown_error'
 }
+
 class Utility {
       static parseQuery(req, res, next) {
             req.query.offset = parseInt(req.query.offset);
@@ -53,11 +55,13 @@ class Utility {
             }
             next();
       }
+
       static GenerateErrorMessage(type,options) {
         let error_object = {
             type: type || ErrorTypes.UNKNOWN_ERROR,
             message: 'Something went wrong'
         }
+
         switch (type) {
           case ErrorTypes.SEARCH_ERROR:
                error_object.message = 'Something went wront in searching';
@@ -163,6 +167,12 @@ class Utility {
                break;
           case ErrorTypes.INVALID_LIST_NAME_LENGTH:
                error_object.message = 'invalid list name length';
+               break;
+          case ErrorTypes.SHOPLIST_UPDATE_ERROR:
+               error_object.message = ' error in update shoplist ';
+               break;
+          case ErrorTypes.ERROR_FINDING_SHOPLIST:
+               error_object.message = 'error in find shoplist on db';
                break;
         }
           return error_object;

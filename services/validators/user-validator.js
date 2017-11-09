@@ -1,6 +1,7 @@
 const BaseValidator = require('./base');
 const Utility = require('./../utility');
 const AppConstants = require('./../../settings/constants');
+
  class UserValidator extends BaseValidator {
     constructor() {
         super();
@@ -25,7 +26,7 @@ const AppConstants = require('./../../settings/constants');
       }
       if (password.length < AppConstants.PASSWORD_MIN_LENGTH
           || password.length > AppConstants.PASSWORD_MAX_LENGTH)
-                {
+      {
           return Utility.ErrorTypes.INVALID_PASSWORD_RANGE;
       }
        return Utility.ErrorTypes.SUCCESS;
@@ -36,7 +37,7 @@ const AppConstants = require('./../../settings/constants');
       }
       if (name.length < AppConstants.NAME_MIN_LENGTH
           || name.length > AppConstants.NAME_MAX_LENGTH)
-                {
+      {
           return Utility.ErrorTypes.INVALID_NAME_RANGE;
       }
        return Utility.ErrorTypes.SUCCESS;
