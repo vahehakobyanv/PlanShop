@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const AppConstants = require('./../settings/constants');
 
-let photosSchema = Schema ({
+let photosSchema = Schema({
   image: {
-      type: Buffer,
-      index: { unique: true}
+    type: Buffer,
+    index: {unique: true}
   },
   content_type: {
     type: String
@@ -25,4 +25,4 @@ let photosSchema = Schema ({
   }
 });
 
-module.exports = mongoose.model('photos',photosSchema);
+module.exports = mongoose.model('photos', photosSchema);
