@@ -449,6 +449,8 @@ app.post('/api/photos', upload.single('avatar'), (req,res) => {
         image: d.image,
         content_type: d.content_type,
         size: d.size,
+        width: d.width,
+        height: d.height,
         title: d.title
         }
       }));
