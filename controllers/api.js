@@ -476,6 +476,11 @@ app.post('/api/photos', upload.single('avatar'), (req,res) => {
        responseType: "{file} is deleted".replace('{file}',filename),
        response: "success"
      });
+     app.dbs.photos.findOneAndRemove({ _id: _id}, (err, data) => {
+       if(err) {
+         return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
+       }
+     });
     });
   })
 });
