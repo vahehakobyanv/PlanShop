@@ -1,13 +1,10 @@
 const crypto = require('crypto');
-const AppConstants = require('./../settings/constants');
 const multer = require('multer');
 const sizeof = require('image-size');
 const fs = require('fs');
 
-
 const upload = multer({ dest: 'uploads/'});
-
-
+const AppConstants = require('./../settings/constants');
 const Utility = require('./../services/utility');
 const UserValidator = require('./../services/validators/user-validator');
 const EmailValidator = require('./../services/validators/emailValidator');
@@ -59,9 +56,9 @@ module.exports = function(app) {
               key : d.key,
               products: d.products
             }
-          }));
-        });
-  });
+        }));
+      });
+    });
 
   app.post('/api/users/', _auth('optional'), (req, res) => {
     let username = req.body.username;
@@ -133,6 +130,7 @@ module.exports = function(app) {
       let name = req.body.name;
       let email = req.body.email ;
       let age = parseInt(req.body.age);
+
       username ? username = req.body.username : username = data.username;
       password ? password = req.body.password : password = data.password;
       name ? name = req.body.name : name = data.name;
@@ -207,6 +205,7 @@ module.exports = function(app) {
     });
   });
 
+
   app.get('/api/products/', _auth('optional'), (req, res) => {
     app.dbs.products.find({}, (err, data) => {
       if (err) {
@@ -266,30 +265,6 @@ module.exports = function(app) {
     });
   });
 
-  app.delete('/api/products/', _auth('optional'), (req, res) => {
-    if (!req.query.id) {
-      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.EMPTY_PRODUCTS_DELETE));
-    }
-    app.dbs.products.findOne({
-      _id: req.query.id
-    }, (err, data) => {
-      if (err) {
-        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_PRODUCT_DELETING));
-      }
-      if (data.isDeleted === true) {
-        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ISDELETED_ERROR));
-      }
-      app.dbs.products.update({_id: req.query.id}, {$set: {isDeleted: true}}, (err, data) => {
-        if (err) {
-          return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_DELETING_PRODUCT));
-        }
-        app.dbs.products.findOne({_id: req.query.id}, (err, data) => {
-          return res.send(data);
-        })
-      });
-    });
-  });
-
   app.put('/api/products/:id', _auth('optional'), (req, res) => {
     app.dbs.products.findOne({_id: req.params.id }, (err, data) => {
       if (err) {
@@ -339,6 +314,31 @@ module.exports = function(app) {
       });
     });
   });
+
+  app.delete('/api/products/', _auth('optional'), (req, res) => {
+    if (!req.query.id) {
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.EMPTY_PRODUCTS_DELETE));
+    }
+    app.dbs.products.findOne({
+      _id: req.query.id
+    }, (err, data) => {
+      if (err) {
+        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_PRODUCT_DELETING));
+      }
+      if (data.isDeleted === true) {
+        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ISDELETED_ERROR));
+      }
+      app.dbs.products.update({_id: req.query.id}, {$set: {isDeleted: true}}, (err, data) => {
+        if (err) {
+          return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_DELETING_PRODUCT));
+        }
+        app.dbs.products.findOne({_id: req.query.id}, (err, data) => {
+          return res.send(data);
+        })
+      });
+    });
+  });
+
 
   app.get('/api/shoplist/', _auth('optional'), (req, res) => {
     app.dbs.shoplist.find({isActive: true})
@@ -406,38 +406,6 @@ module.exports = function(app) {
   });
 
 
-app.post('/api/photos', upload.single('avatar'), (req,res) => {
-    if(!req.file) {
-      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_PHOTO));
-    }
-    if (!req.file.originalname.match(/\.(jpg|jpeg|png|gif|PNG)$/)) {
-        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_PHOTOS_TYPE))
-    }
-
-      let content_type= req.file.mimetype;
-      let size = req.file.size;
-      let filename = req.file.filename;
-      let dimensions = sizeof('{dest}/{filename}'.replace('{dest}',req.file.destination).replace('{filename}',req.file.filename));
-      let buffer = req.file.buffer;
-      let width = dimensions.width;
-      let height = dimensions.height;
-      let path = req.file.path;
-    app.dbs.photos.create({
-      image: buffer,
-      content_type: content_type,
-      size: size,
-      width: width,
-      height: height,
-      path: path,
-      title: filename
-    }, (err, data) => {
-      if(err) {
-        console.log(err);//TODO create error.log file
-        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_ADDING_PHOTO));
-      }
-      return res.send(data);
-    });
-  });
   app.get('/api/photos/',_auth('optional'), (req, res) => {
     app.dbs.photos.find({})
     .exec( (err, data) => {
@@ -448,40 +416,76 @@ app.post('/api/photos', upload.single('avatar'), (req,res) => {
 
       return res.send(data.map(d => {
         return {
-        image: d.image,
-        content_type: d.content_type,
-        size: d.size,
-        width: d.width,
-        height: d.height,
-        title: d.title
+          image: d.image,
+          content_type: d.content_type,
+          size: d.size,
+          width: d.width,
+          height: d.height,
+          title: d.title
         }
       }));
     })
   });
 
-  app.delete('/api/photos/:id',  (req,res) => {
-  let _id = req.params.id;
-  app.dbs.photos.findOne({_id: _id}, (err, data) => {
-    let filename = data.title;
-    if (err) {
-      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
+  app.post('/api/photos', upload.single('avatar'), (req, res) => {
+    if (!req.file) {
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_PHOTO));
     }
-    fs.unlink('./uploads/{filename}'.replace('{filename}',filename), (err)=> {
-      if(err) {
-        console.log(err)
-          return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
+    if (!req.file.originalname.match(/\.(jpg|jpeg|png|gif|PNG)$/)) {
+        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_PHOTOS_TYPE))
       }
-      res.send ({
-       status: "200",
-       responseType: "{file} is deleted".replace('{file}',filename),
-       response: "success"
-     });
-     app.dbs.photos.findOneAndRemove({ _id: _id}, (err, data) => {
-       if(err) {
-         return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
-       }
-     });
+
+      let content_type= req.file.mimetype;
+      let size = req.file.size;
+      let filename = req.file.filename;
+      let dimensions = sizeof('{dest}/{filename}'.replace('{dest}',req.file.destination).replace('{filename}',req.file.filename));
+      let buffer = req.file.buffer;
+      let width = dimensions.width;
+      let height = dimensions.height;
+      let path = req.file.path;
+
+      app.dbs.photos.create({
+        image: buffer,
+        content_type: content_type,
+        size: size,
+        width: width,
+        height: height,
+        path: path,
+        title: filename
+        }, (err, data) => {
+          if(err) {
+            console.log(err);//TODO create error.log file
+            return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_ADDING_PHOTO));
+          }
+          return res.send(data);
+      });
     });
-  })
-});
+
+  app.delete('/api/photos/:id',  (req, res) => {
+    let _id = req.params.id;
+    app.dbs.photos.findOne({_id: _id}, (err, data) => {
+      let filename = data.title;
+      if (err) {
+        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
+      }
+
+      fs.unlink('./uploads/{filename}'.replace('{filename}',filename), (err)=> {
+        if(err) {
+          console.log(err)
+          return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
+        }
+        res.send ({
+          status: "200",
+          responseType: "{file} is deleted".replace('{file}',filename),
+          response: "success"
+        });
+
+        app.dbs.photos.findOneAndRemove({ _id: _id}, (err, data) => {
+          if(err) {
+            return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
+          }
+        });
+      });
+    })
+  });
 }

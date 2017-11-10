@@ -21,8 +21,8 @@ require('./models/shoplist');
 require('./models/group');
 require('./models/photos');
 
-
 const con = mongoose.createConnection(AppConstants.DB_URL);
+
 app.dbs = {
     users: con.model('users'),
     products: con.model('products'),
