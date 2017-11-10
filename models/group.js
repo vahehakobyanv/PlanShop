@@ -4,27 +4,27 @@ const Schema = mongoose.Schema;
 const AppConstants = require('./../settings/constants');
 const products = require('./products');
 
-let GroupSchema = Schema ({
+let GroupSchema = Schema({
   groupname: {
-      type: String,
-      index: { unique: true}
+    type: String,
+    index: {unique: true}
   },
   users: [{
-      type: Schema.ObjectId,
-      index: true,
-      ref: 'users',
-      default: null
+    type: Schema.ObjectId,
+    index: true,
+    ref: 'users',
+    default: null
   }],
   shoplists: [{
-      type: Schema.ObjectId,
-      index: true,
-      ref: 'shoplist',
-      default: null
+    type: Schema.ObjectId,
+    index: true,
+    ref: 'shoplist',
+    default: null
   }],
   isActive: {
-      type: Boolean,
-      default: true
+    type: Boolean,
+    default: true
   }
 });
 
-module.exports = mongoose.model('group',GroupSchema);
+module.exports = mongoose.model('group', GroupSchema);
