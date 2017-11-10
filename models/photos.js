@@ -22,6 +22,9 @@ let photosSchema = Schema({
   },
   title: {
     type: String
+  },
+  path: {
+    type: String
   }
 });
 

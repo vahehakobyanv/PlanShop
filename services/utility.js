@@ -38,6 +38,7 @@ const ErrorTypes = {
   IS_NOT_ACTIVE: 'is not activ',
   SHOPLIST_UPDATE_ERROR: 'shoplist update error',
   ERROR_FINDING_SHOPLIST: 'error finding shoplist',
+  ERROR_IN_FINDING_PHOTO_DELETING: 'error in finding photos',
   INVALID_LIST_NAME_LENGTH: 'invalid list name length',
   NO_PHOTO: 'no photo',
   NO_PHOTOS_TYPE: 'no photos type',
@@ -126,6 +127,9 @@ class Utility {
            break;
       case ErrorTypes.NO_PHOTO:
            error_object.message = 'no photo please enter photo';
+           break;
+      case ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING:
+           error_object.message = 'no photo finding for deleteing';
            break;
       case ErrorTypes.NO_PHOTOS_TYPE:
            error_object.message = 'no photos type please enter photo';

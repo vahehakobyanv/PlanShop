@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const AppConstants = require('./../settings/constants');
 const multer = require('multer');
 const sizeof = require('image-size');
-
+const fs = require('fs');
 
 
 const upload = multer({ dest: 'uploads/'});
@@ -421,12 +421,14 @@ app.post('/api/photos', upload.single('avatar'), (req,res) => {
       let buffer = req.file.buffer;
       let width = dimensions.width;
       let height = dimensions.height;
+      let path = req.file.path;
     app.dbs.photos.create({
       image: buffer,
       content_type: content_type,
       size: size,
       width: width,
       height: height,
+      path: path,
       title: filename
     }, (err, data) => {
       if(err) {
@@ -456,4 +458,25 @@ app.post('/api/photos', upload.single('avatar'), (req,res) => {
       }));
     })
   });
+
+  app.delete('/api/photos/:id',  (req,res) => {
+  let _id = req.params.id;
+  app.dbs.photos.findOne({_id: _id}, (err, data) => {
+    let filename = data.title;
+    if (err) {
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
+    }
+    fs.unlink('./uploads/{filename}'.replace('{filename}',filename), (err)=> {
+      if(err) {
+        console.log(err)
+          return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
+      }
+      res.send ({
+       status: "200",
+       responseType: "{file} is deleted".replace('{file}',filename),
+       response: "success"
+     });
+    });
+  })
+});
 }
