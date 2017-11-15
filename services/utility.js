@@ -47,6 +47,7 @@ const ErrorTypes = {
   NO_SUCH_GROUP_UPDATE: 'no such group to update',
   GROUP_UPDATE_ERROR: 'group update error',
   ERROR_FINDING_GROUP: 'error in finding group',
+  NO_GROUP: 'no group',
   NO_PHOTO: 'no photo',
   NO_PHOTOS_TYPE: 'no photos type',
   UNKNOWN_ERROR: 'unknown_error'
@@ -197,6 +198,9 @@ class Utility {
            break;
       case ErrorTypes.EMPTY_GROUP_DELETE:
            error_object.message = 'empty group is deleting';
+           break;
+     case ErrorTypes.NO_GROUP:
+           error_object.message = 'no group';
            break;
       case ErrorTypes.NO_SUCH_GROUP_UPDATE:
            error_object.message = 'no such group for update';

@@ -607,7 +607,28 @@ app.delete('/api/group/', _auth('user'), (req, res) => {
     });
   });
 });
+app.get('/api/group/:id', _auth('optional'), (req, res) => {
+  app.dbs.group.find({users: req.params.id})
+  .populate('users',['username','email'])
+  .populate('shoplist',['list_name','products'])
+  .exec((err, data) => {
+    console.log(data);
+    if (err) {
+      console.log(err);//TODO write this error on log file
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_GROUP));
+    }
 
+    return res.send(data.map(d => {
+      return {
+        groupname: d.groupname,
+        id: d._id,
+        users: d.userss,
+        shoplist:d.shoplists,
+        GroupOwner: d.GroupOwner
+      }
+    }));
+  })
+});
 
 app.put('/api/group/add/:id', _auth('user'), (req, res) => {
     app.dbs.group.findOne({_id: req.params.id }, (err, data) => {
