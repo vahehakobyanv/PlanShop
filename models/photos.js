@@ -5,26 +5,32 @@ const AppConstants = require('./../settings/constants');
 
 let photosSchema = Schema({
   image: {
-    type: Buffer,
-    index: {unique: true}
+      type: Buffer,
+      index: {unique: true}
   },
+
   content_type: {
-    type: String
+      type: String
   },
+
   size: {
-    type:Number
+      type:Number
   },
+
   width: {
-    type: Number
+      type: Number
   },
+
   height: {
-    type: Number
+      type: Number
   },
+
   title: {
-    type: String
+      type: String
   },
+  
   path: {
-    type: String
+      type: String
   }
 });
 
