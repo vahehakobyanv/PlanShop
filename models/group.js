@@ -21,6 +21,10 @@ let GroupSchema = Schema({
     ref: 'shoplist',
     default: null
   }],
+  GroupOwner: {
+    type: Schema.ObjectId,
+    index: true,
+  },
   isActive: {
     type: Boolean,
     default: true

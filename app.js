@@ -25,6 +25,7 @@ require('./models/photos');
 const con = mongoose.createConnection(AppConstants.DB_URL);
 app.dbs = {
     users: con.model('users'),
+    group: con.model('group'),
     products: con.model('products'),
     shoplist: con.model('shoplist'),
     group: con.model('group'),

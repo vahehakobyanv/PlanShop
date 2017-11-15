@@ -21,6 +21,7 @@ module.exports = function(app) {
       if (permission == 'user') {
         app.dbs.users.findOne({key: req.query.key}, (err, user) => {
           if (!user) {
+            console.log('k');
             return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PERMISSION_DENIED));
           }
           req.user = user;
@@ -404,7 +405,44 @@ module.exports = function(app) {
       });
     });
   });
+  app.put('/api/shoplist/:id', _auth('optional'), (req, res) => {
+      app.dbs.shoplist.findOne({_id: req.params.id }, (err, data) => {
+        if (err) {
+          return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_SUCH_SHOPLIST_UPDATE));
+        }
 
+        let shoplist = {
+          list_name: req.body.list_name,
+          isActive: req.body.isActive,
+          products: req.body.products
+        };
+        shoplist.lsit_name ? shoplist.list_name = req.body.list_name : shoplist.list_name = data.list_name;
+        shoplist.isActive ? shoplist.isActive = req.body.isActive : shoplist.isActive = data.isActive;
+
+        if (shoplist.products) {
+          app.dbs.shoplist.update({_id: req.params.id},{$push:{products:shoplist.products}},(err,data)=> {
+            if(err) {
+              return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.SHOPLIST_UPDATE_ERROR));
+            }
+          });
+        }
+
+        app.dbs.shoplist.update({_id:req.params.id},{$set:{list_name : shoplist.list_name, isActive: shoplist.isActive }},
+          (err, value) => {
+            if (err) {
+                console.log(err);
+                return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.SHOPLIST_UPDATE_ERROR));
+              }
+              app.dbs.products.findOne({_id:req.params.id}, (err,data)=> {
+                if (err) {
+                  console.log(err);
+                  return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_FINDING_SHOPLIST));;
+                }
+                return res.send(data);
+              })
+            });
+          });
+        });
 
 app.post('/api/photos', upload.single('avatar'), (req,res) => {
     if(!req.file) {
@@ -466,7 +504,7 @@ app.post('/api/photos', upload.single('avatar'), (req,res) => {
     if (err) {
       return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
     }
-    fs.unlink('./uploads/{filename}'.replace('{filename}',filename), (err)=> {
+    fs.unlink('./{path}'.replace('{path}',data.path), (err)=> {
       if(err) {
         console.log(err)
           return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_FINDING_PHOTO_DELETING));
@@ -484,4 +522,158 @@ app.post('/api/photos', upload.single('avatar'), (req,res) => {
     });
   })
 });
+
+app.post('/api/group', _auth('user'), (req, res) => {
+  let groupname = req.body.groupname;
+  if (groupname.length < AppConstants.GROUP_NAME_MIN_LENGTH || groupname.length > AppConstants.GROUP_NAME_MAX_LENGTH) {
+    return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.INVALID_GROUP_NAME_LENGTH));
+  }
+  app.dbs.group.create({
+    groupname: groupname,
+    GroupOwner: req.user.id
+  }, (err, data) => {
+    if(err) {
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_CREATION_GROUP));
+    }
+
+    let group = {
+      groupname: data.groupname,
+      isActive: data.isActive,
+      _id:data._id,
+      shoplists: data.shoplists,
+      users: data.users,
+      GroupOwner: data.GroupOwner
+    };
+    return res.send(group);
+
+
+
+  });
+});
+app.delete('/api/group/', _auth('user'), (req, res) => {
+  if (!req.query.id) {
+    return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.EMPTY_GROUP_DELETE));
+  }
+  app.dbs.group.findOne({
+    _id: req.query.id
+  }, (err, data) => {
+    if (err) {
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_GROUP_DELETING));
+    }
+    if(req.user.id != data.GroupOwner) {
+      console.log(req.user.id +" "+data.GroupOwner)
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PERMISSION_DENIED));
+    }
+    if (data.isActive === false) {
+      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.IS_NOT_ACTIVE));
+    }
+    app.dbs.group.update({_id: req.query.id}, {$set: {isActive: false}}, (err, data) => {
+      if (err) {
+        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_IN_GROUP_DELETING));
+      }
+      app.dbs.group.findOne({_id: req.query.id}, (err, data) => {
+        return res.send(data);
+      })
+    });
+  });
+});
+
+
+app.put('/api/group/add/:id', _auth('user'), (req, res) => {
+    app.dbs.group.findOne({_id: req.params.id }, (err, data) => {
+      if (err) {
+        return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_SUCH_GROUP_UPDATE));
+      }
+
+      let group = {
+        groupname: req.body.groupname,
+        isActive: req.body.isActive,
+        GroupOwner: req.body.GroupOwner,
+        users: req.body.users,
+        shoplists: req.body.shoplists
+      };
+      group.groupname ? group.groupname = req.body.groupname : group.groupname = data.groupname;
+      group.isActive ? group.isActive = req.body.isActive : group.isActive = data.isActive;
+      group.GroupOwner ? group.GroupOwner = req.body.GroupOwner : group.GroupOwner = data.GroupOwner;
+      if (group.shoplists) {
+        app.dbs.group.update({_id: req.params.id},{$push:{shoplists:group.shoplists}},(err,data)=> {
+          if(err) {
+            return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.GROUP_UPDATE_ERROR));
+          }
+        });
+      }
+      if (group.users) {
+        app.dbs.group.update({_id: req.params.id},{$push:{users:group.users}},(err,data)=> {
+          if(err) {
+            return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.GROUP_UPDATE_ERROR));
+          }
+        });
+      }
+
+      app.dbs.group.update({_id:req.params.id},{$set:{groupname: group.groupname, isActive: group.isActive,GroupOwner: group.GroupOwner }},
+        (err, value) => {
+          if (err) {
+              console.log(err);
+              return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.GROUP_UPDATE_ERROR));
+            }
+            app.dbs.group.findOne({_id:req.params.id}, (err,data)=> {
+              if (err) {
+                console.log(err);
+                return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_FINDING_GROUP));;
+              }
+              return res.send(data);
+            })
+          });
+        });
+      });
+      app.put('/api/group/delete/:id', _auth('user'), (req, res) => {
+          app.dbs.group.findOne({_id: req.params.id }, (err, data) => {
+            if (err) {
+              return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.NO_SUCH_GROUP_UPDATE));
+            }
+            if(req.user.id != data.GroupOwner) {
+              return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.PERMISSION_DENIED));
+            }
+
+            let group = {
+              groupname: req.body.groupname,
+              isActive: req.body.isActive,
+              GroupOwner: req.body.GroupOwner,
+              users: req.body.users,
+              shoplists: req.body.shoplists
+            };
+            group.groupname ? group.groupname = req.body.groupname : group.groupname = data.groupname;
+            group.isActive ? group.isActive = req.body.isActive : group.isActive = data.isActive;
+            group.GroupOwner ? group.GroupOwner = req.body.GroupOwner : group.GroupOwner = data.GroupOwner;
+            if (group.shoplists) {
+              app.dbs.group.update({_id: req.params.id},{$pull:{shoplists:group.shoplists}},(err,data)=> {
+                if(err) {
+                  return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.GROUP_UPDATE_ERROR));
+                }
+              });
+            }
+            if (group.users) {
+              app.dbs.group.update({_id: req.params.id},{$pull:{users:group.users}},(err,data)=> {
+                if(err) {
+                  return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.GROUP_UPDATE_ERROR));
+                }
+              });
+            }
+
+            app.dbs.group.update({_id:req.params.id},{$set:{groupname: group.groupname, isActive: group.isActive,GroupOwner: group.GroupOwner }},
+              (err, value) => {
+                if (err) {
+                    console.log(err);
+                    return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.GROUP_UPDATE_ERROR));
+                  }
+                  app.dbs.group.findOne({_id:req.params.id}, (err,data)=> {
+                    if (err) {
+                      console.log(err);
+                      return res.send(Utility.GenerateErrorMessage(Utility.ErrorTypes.ERROR_FINDING_GROUP));;
+                    }
+                    return res.send(data);
+                  })
+                });
+              });
+            });
 }
