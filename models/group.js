@@ -30,5 +30,5 @@ let GroupSchema = Schema({
     default: true
   }
 });
-
+ 
 module.exports = mongoose.model('group', GroupSchema);

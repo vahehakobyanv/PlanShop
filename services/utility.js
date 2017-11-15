@@ -218,5 +218,6 @@ class Utility {
   }
 }
 
+
 module.exports = Utility;
 module.exports.ErrorTypes = ErrorTypes;
