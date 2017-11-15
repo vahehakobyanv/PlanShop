@@ -16,13 +16,12 @@ app.use(bodyparser.urlencoded({
 
 app.use(Utility.parseQuery);
 require('./models/users');
-require('./models/products');
-require('./models/shoplist');
 require('./models/group');
 require('./models/photos');
+require('./models/shoplist');
+require('./models/products');
 
 const con = mongoose.createConnection(AppConstants.DB_URL);
-
 
 app.dbs = {
     users: con.model('users'),
