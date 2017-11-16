@@ -1,10 +1,10 @@
 const mongoose = require ('mongoose');
 const Schema = mongoose.Schema;
 
-const AppConstants = require('./../settings/constants');
 const products = require('./products');
+const AppConstants = require('./../settings/constants');
 
-let ShoplistSchema = Schema ({
+let ShoplistSchema = Schema({
   list_name: {
       type: String,
       index: { unique: true}
@@ -16,11 +16,11 @@ let ShoplistSchema = Schema ({
       ref: 'products',
       default: null
   }],
-
+  
   isActive: {
       type: Boolean,
       default: true
   }
 });
 
-module.exports = mongoose.model('shoplist',ShoplistSchema);
+module.exports = mongoose.model('shoplist', ShoplistSchema);

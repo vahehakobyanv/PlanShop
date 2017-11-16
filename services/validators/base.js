@@ -17,7 +17,7 @@ class BaseValidator {
     this.handlers[Types.DATE] = this._isDate;
   }
 
-  validator(str,type) {
+  validator(str, type) {
     if(!this.handlers[type]) {
       return false;
     }
@@ -25,28 +25,44 @@ class BaseValidator {
   }
 
   _isString(str) {
-     if(!str) return false ;
-     if(typeof(str) === 'string') return true;
+     if (!str) {
+       return false;
+     }
+     if (typeof(str) === 'string') {
+       return true;
+     }
      return false;
   }
 
   _isNumber(str) {
-     if(!str) return false;
+     if (!str) {
+       return false;
+     }
      let numberRegExp = AppConstants.NUMBER_REG_EXP;
-     if(numberRegExp.test(str)) return true;
+     if (numberRegExp.test(str)) {
+       return true;
+     }
      return false;
   }
 
   _isDate(str) {
-     if(!str) return false;
-     if(Date.parse(str)) return true;
+     if (!str) {
+       return false;
+     }
+     if (Date.parse(str)) {
+       return true;
+     }
      return false;
   }
 
   _isSymbol(str) {
-    if(!str) return false;
+    if (!str) {
+      return false;
+    }
     let symbolRegExp = AppConstants.SYMBOL_REG_EXP;
-    if(symbolRegExp.test(str)) return true;
+    if (symbolRegExp.test(str)) {
+      return true;
+    }
     return false;
   }
 }
