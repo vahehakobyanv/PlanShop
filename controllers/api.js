@@ -9,6 +9,19 @@ const Utility = require('./../services/utility');
 const UserValidator = require('./../services/validators/user-validator');
 const EmailValidator = require('./../services/validators/emailValidator');
 
+//new changes 
+const UsersApi = require('./components/users/api');
+class ApiV1 {
+  initilize(app) {
+      app.use('/api/users', UsersApi);
+      app.get('/', (req, res) => {
+        return res.send('works');
+      });
+  }
+}
+
+module.exports = new ApiV1();
+
 module.exports = function(app) {
   function _auth(permission) {
     return function (req, res, next) {

@@ -1,7 +1,7 @@
 {
   "name": "task",
   "version": "1.0.0",
-  "description": "",
+  "description": "Our project is a mobile/web app designed to help people simplify the organisation of the shopping list and also syncronising it with family members. I am working on the backend part of the project. I am using nodeJS, and Mongo DB (for database) and also involved in the frontend part with ReactJS.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,5 +15,13 @@
     "keygenerator": "^1.0.4",
     "mongoose": "^4.12.4",
     "multer": "^1.3.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vahehakobyanv/PlanShop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vahehakobyanv/PlanShop/issues"
+  },
+  "homepage": "https://github.com/vahehakobyanv/PlanShop#readme"
 }

@@ -6,8 +6,9 @@ const bodyparser = require('body-parser');
 
 const app = express();
 const Utility = require('./services/utility');
-const AppConstants = require('./settings/constants')
-
+const AppConstants = require('./settings/constants');
+const ApiV1 = require('./controllers/api');
+ApiV1.initilize(app);
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({
