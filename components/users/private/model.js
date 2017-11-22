@@ -2,10 +2,10 @@ const mongoose = require ('mongoose');
 const keygen = require('keygenerator');
 const Schema = mongoose.Schema;
 
-const products = require('./products');
-const shoplist = require('./shoplist');
-const AppConstants = require('./../settings/constants');
-const EmailValidator = require('./../services/validators/emailValidator');
+//const products = require('./products');
+//const shoplist = require('./shoplist');
+const AppConstants = require('./../../../settings/constants');
+const EmailValidator = require('./../../../services/validators/emailValidator');
 
 
 function generateAPIKey() {
@@ -65,7 +65,7 @@ let userSchema = Schema({
       ref: 'products',
       default: null
   }],
-  
+
   shoplist: [{
       type:String,
       index: true,

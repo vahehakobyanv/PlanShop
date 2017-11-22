@@ -40,6 +40,14 @@ const ErrorTypes = {
   ERROR_FINDING_SHOPLIST: 'error finding shoplist',
   ERROR_IN_FINDING_PHOTO_DELETING: 'error in finding photos',
   INVALID_LIST_NAME_LENGTH: 'invalid list name length',
+  INVALID_GROUP_NAME_LENGTH: 'invalid group name range',
+  ERROR_CREATION_GROUP: ' error in creation group',
+  EMPTY_GROUP_DELETE: 'empty group deleting',
+  ERROR_IN_GROUP_DELETING: 'error in deleting group',
+  NO_SUCH_GROUP_UPDATE: 'no such group to update',
+  GROUP_UPDATE_ERROR: 'group update error',
+  ERROR_FINDING_GROUP: 'error in finding group',
+  NO_GROUP: 'no group',
   NO_PHOTO: 'no photo',
   NO_PHOTOS_TYPE: 'no photos type',
   UNKNOWN_ERROR: 'unknown_error'
@@ -179,6 +187,30 @@ class Utility {
       case ErrorTypes.INVALID_LIST_NAME_LENGTH:
            error_object.message = 'invalid list name length';
            break;
+      case ErrorTypes.INVALID_GROUP_NAME_LENGTH:
+           error_object.message = 'invalid group name length';
+           break;
+      case ErrorTypes.ERROR_CREATION_GROUP:
+           error_object.message = 'error in creation group';
+           break;
+      case ErrorTypes.ERROR_FINDING_GROUP:
+           error_object.message = 'error in finding group';
+           break;
+      case ErrorTypes.EMPTY_GROUP_DELETE:
+           error_object.message = 'empty group is deleting';
+           break;
+     case ErrorTypes.NO_GROUP:
+           error_object.message = 'no group';
+           break;
+      case ErrorTypes.NO_SUCH_GROUP_UPDATE:
+           error_object.message = 'no such group for update';
+           break;
+      case ErrorTypes.GROUP_UPDATE_ERROR:
+           error_object.message = 'error group for update';
+           break;
+      case ErrorTypes.ERROR_IN_GROUP_DELETING:
+           error_object.message = 'error in deleting group';
+           break;
       case ErrorTypes.SHOPLIST_UPDATE_ERROR:
            error_object.message = ' error in update shoplist ';
            break;
@@ -189,6 +221,7 @@ class Utility {
     return error_object;
   }
 }
+
 
 module.exports = Utility;
 module.exports.ErrorTypes = ErrorTypes;
