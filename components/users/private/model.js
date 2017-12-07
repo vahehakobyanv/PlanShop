@@ -57,7 +57,7 @@ let userSchema = Schema({
       type: String,
       enum: ['user','admin'],
       default: 'user'
-  },
+  }/*,
 
   products: [{
       type: Schema.ObjectId,
@@ -71,7 +71,7 @@ let userSchema = Schema({
       index: true,
       ref: 'shoplist',
       default: null
-  }]
+  }]*/
 });
 
 module.exports = mongoose.model('users', userSchema);
