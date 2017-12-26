@@ -2,8 +2,17 @@
 function myFunction() {
     location.replace("Main.html")
 }
+function dialogBoxOpen() {
+    var txt;
+    var person = prompt("Please enter your name:", "The Name Of your List");
+    if (person == null || person == "") {
+        txt = "User cancelled the prompt.";
+    } else {
+        txt = person;
+        $('#lists').append(`<li>${txt}'  <button>&#10006</button></li>`);
+    }
 
-
+}
 $(document).ready(function(){
     $(".sign_in_btn").click(function(){
        $(".log_reg_fix").css({

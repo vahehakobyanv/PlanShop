@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>This is new Main Window</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/main.js"></script>
+
 </head>
 <body bgcolor="#5f9ea0">
 <header>
@@ -16,13 +19,17 @@
             <div class="search-container">
                 <form action="/action_page.php">
                     <input type="text" placeholder="Search.." name="search" id = 'search'>
-                    <button type="submit" id="subButton">Submit</button>
+                    <button type="submit" id="subButton" >Submit</button>
                 </form>
             </div>
         </div>
 </header>
 <div id = "underHeader">
-    <button type="button" class = "UnderHeaderButton"> +Create New List!</button>
+    <button type="button" class = "UnderHeaderButton" onclick = "dialogBoxOpen()"> +Create New List!</button>
+<div class = "listedItems">
+    <ul id = "lists">
+
+    </ul>
 </div>
 </body>
 </html>
