@@ -1,0 +1,217 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+header{
+    width: 100%;
+    height: 50px;
+    background-color: rgba(32,155,255,0.3);
+}
+
+.log_reg_place{
+    width: 200px;
+    height: 100%;
+    float: right;
+}
+
+.log_reg_child{
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.sign_in_btn{
+    width: 90%;
+    height: 40px;
+    margin: 5px auto 0px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #000;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.sign_up_btn{
+    width: 90%;
+    height: 40px;
+    margin: 5px auto 0px;
+    background-color: #efefef;
+    font-size: 16px;
+    color: #000;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.log_reg_fix{
+    position: fixed;
+    display: none;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    transition: 0.5s ease;
+    z-index: 999;
+}
+
+.fix_center_rel{
+    position: relative;
+    width: 300px;
+    height: 200px;
+    margin: 150px auto 0px;
+    border-radius: 25px;
+}
+
+.fix_center_abs{
+    position: absolute;
+    top: -1000px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    background-color: #efefef;
+}
+
+.fix_center_abs_2{
+    position: absolute;
+    top: -1000px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    background-color: #efefef;
+}
+
+.user_inp{
+    display: block;
+    width: 80%;
+    height: 40px;
+    margin: 0px auto 15px;
+    padding-left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #efefef;
+    outline: none;
+    border: none;
+}
+
+.user_inp::-webkit-input-placeholder{
+    font-size: 16px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.pass_inp{
+    display: block;
+    width: 80%;
+    height: 40px;
+    margin: 0px auto 15px;
+    padding-left: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #efefef;
+    outline: none;
+    border: none;
+}
+
+.pass_inp::-webkit-input-placeholder{
+    font-size: 16px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.send{
+    display: block;
+    width: 100px;
+    height: 30px;
+    margin: 0px auto;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.fix_bg{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    background-image: url("../Img/BackgroundImg.jpg");
+    z-index: -999;
+}
+
+/* content*/
+
+.content{
+    width: 100%;
+    height: auto;
+}
+
+.content_header{
+    width: 100%;
+    height: 50px;
+    background-color: rgba(27,91,146,0.3);
+}
+
+.content_shoplist_place{
+    width: 300px;
+    height: auto;
+    float: left;
+}
+
+.add_shoplist{
+    width: 100%;
+}
+
+.add_btn{
+    display: block;
+    width: 80%;
+    height: 20px;
+    margin: 15px auto 0px;
+    color: #000;
+    font-size: 16px;
+    text-transform: capitalize;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+
+.add_place{
+    width: 80%;
+    height: 0px;
+    margin: 15px auto 0px;
+    overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+/*body {*/
+    /*background-image: url("../Img/BackgroundImg.jpg");*/
+
+/*}*/
+/*.Button{*/
+/*float:right;*/
+/*}*/
+/*.buttons{*/
+
+/*}*/
+/*.InputFields{*/
+
+/*}*/
+/*.shopList{*/
+
+
+/*}*/
+/*#header{*/
+    /*display: inline-block;*/
+/*}*/

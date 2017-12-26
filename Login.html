@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" type="text/css" href="PlanShopCss.css">
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <script src="js/jquery.js"></script>
+        <script src="js/main.js"></script>
+    </head>
 <body>
-<div class="buttons">
-    <button onclick="PopUp('SignUp','SignIn')" class  = "Button">Sign up</button>
-    <button onclick="PopUp('SignIn','SignUp')" class  = "Button">Sign In</button>
 
-</div>
-<div class ="InputFields">
-    <span id = "SignUp" style="display:none">
-        UserName:<input type="text" id = "UserNameId"><br>
-        Password_:<input type="password" id = "UserPass"><br>
-        <input type ="submit"onclick="SubmitPressed()">
-    </span>
-
-    <div id = "SignIn" style="display:none">
-        UserName:<input type="text"><br>
-        Password:<input type="password"><br>
-        RePassword:<input type="password"><br>
+    <div class="log_reg_fix">
+        <div class="fix_center_rel">
+            <div class="fix_center_abs">
+                <form action="#" method="post">
+                    <input type="text" name="username" class="user_inp" placeholder="Enter Username" />
+                    <input type="password" name="pass" class="pass_inp" placeholder="Enter Password" />
+                    <input type="button" class="send" value="send" onclick="myFunction()"/>
+                </form>
+            </div>
+            <div class="fix_center_abs_2">
+                <form action="#" method="post">
+                    <input type="text" name="username" class="user_inp" placeholder="Enter Username" />
+                    <input type="password" name="pass" class="pass_inp" placeholder="Enter Password" />
+                    <input type="password" name="pass" class="pass_inp" placeholder="Enter Re-password" />
+                    <input type="submit" class="send" value="send"/>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
-<script>
-    function PopUp(show,hide) {
-        x = document.getElementById(show);
-        y = document.getElementById(hide);
-        y.style.display = 'none';
-        if (x.style.display === 'none') {
-            x.style.display = 'block';
-
-        } else {
-            x.style.display = 'none';
-        }
-    }
-    function SubmitPressed(){
-        var x = document.getElementById("UserNameId").value;
-        var y = document.getElementById("UserPass").value;
-        console.log(x,y);
-        window.location.assign("Main.html");
-    }
-
-
-
-</script>
+    <header>
+        <div class="log_reg_place">
+            <div class="log_reg_child">
+                <button class="sign_in_btn">Sign in</button>
+            </div>
+            <div class="log_reg_child">
+                <button class="sign_up_btn">Sign up</button>
+            </div>
+        </div>
+    </header>
+    <div class="content">
+        <div class="content_header">
+            <div class="content_search_place"></div>
+            <div class="content_product_place"></div>
+        </div>
+    </div>
+    <div class="fix_bg"></div>
 </body>
+
 </html>
